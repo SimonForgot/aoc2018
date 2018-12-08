@@ -1,0 +1,46 @@
+class worker(object):
+    def __init__(self,cw=-1,rt=0):
+        self.current_work=cw
+        self.remain_time=rt
+    def findjob(self):
+    #find job 
+        for i in predict.keys():
+            if len(predict[i])==0 and (i not in doing_work) and (i not in seq):
+                self.current_work=i
+                self.remain_time=ord(i)-4
+                doing_work.add(i)   
+                break
+with open("num") as file:
+    predict={}#topological information dict
+    for i in range(ord('A'),ord('Z')+1):
+        predict[chr(i)]=[]
+    while True:
+        line=file.readline()
+        if not line:
+            break
+        p=re.findall("([A-Z]) must be finished before step ([A-Z])",line)
+        predict[p[0][1]].append(p[0][0])
+        
+    workers=[]
+    for i in range(5):
+        workers.append(worker())
+    seq=[]
+    doing_work=set() 
+    t=0
+    while len(seq)<26:
+        t+=1
+        for index,i in enumerate(workers):
+            if i.current_work==-1:
+                workers[index].findjob()
+        for index,i in enumerate(workers):
+            if i.current_work!=-1:
+                workers[index].remain_time-=1
+                if workers[index].remain_time==0:
+                    doing_work.remove(workers[index].current_work)
+                    seq.append(workers[index].current_work)
+                    #update predict
+                    for v in predict.values():
+                        if  workers[index].current_work in v:
+                            v.remove(workers[index].current_work)
+                    workers[index].current_work=-1
+    print(t)
