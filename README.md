@@ -1,2 +1,2 @@
 # aoc2018
-My personal code record.
+Adventure of  code 2018 record.
